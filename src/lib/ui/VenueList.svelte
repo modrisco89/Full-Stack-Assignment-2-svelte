@@ -12,6 +12,7 @@ let { venues } = $props();
       <th>Capacity</th>
       <th>lat</th>
       <th>lng</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -31,6 +32,10 @@ let { venues } = $props();
         </td>
         <td>
           {venueDetail.longitude}
+        </td>
+        <td>
+          <span class="icon"><a href={`/charts/${venueDetail._id}`}><span class="icon mr-1">
+          <i class="fas fa-chart-bar"></i></a></span>
         </td>
       </tr>
     {/each}

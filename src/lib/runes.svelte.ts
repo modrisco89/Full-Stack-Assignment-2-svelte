@@ -8,7 +8,7 @@ export const loggedInUser = $state({
     _id: ""
  });
 export const currentVenues = $state({ venues: [] as Venue[] });
-
+export const currentInfos = $state({ infos: [] as VenueInfo[] });
 
 
 

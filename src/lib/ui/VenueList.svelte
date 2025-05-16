@@ -18,7 +18,7 @@ let { venues } = $props();
     {#each currentVenues.venues as venueDetail}
       <tr>
         <td>
-          {venueDetail.title}
+          <a href={`/infos/${venueDetail._id}`}>{venueDetail.title}</a>
         </td>
         <td>
           {venueDetail.description}

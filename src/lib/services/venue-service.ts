@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Session, User, Venue } from "$lib/types/venue-types";
+import type { Session, User, Venue, VenueInfo } from "$lib/types/venue-types";
 import { currentVenues, loggedInUser } from "$lib/runes.svelte";
 
 export const venueService = {
@@ -63,6 +63,35 @@ export const venueService = {
     }
   },
 
+
+
+   async addInfo(Info: VenueInfo, venueId: string, token: string) {
+    console.log("now it's here",venueId);
+    try {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      
+      const response = await axios.post(`${this.baseUrl}/api/venues/${venueId}/infos`, Info);
+      await this.refreshVenueInfo();
+      return response.status == 200;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
+  async getInfos(venueId: string, token: string): Promise<VenueInfo[]> {
+    try {
+      
+      console.log("now it's here",venueId);
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      const response = await axios.get(`${this.baseUrl}/api/venues/${venueId}/infos`);
+      console.log("got a response", response);
+      return response.data;
+    } catch (error) {
+    console.log(error)
+      return [];
+    }
+  },
 
     async refreshVenueInfo() {
     if (loggedInUser.token) {

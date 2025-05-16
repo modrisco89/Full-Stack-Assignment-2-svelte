@@ -19,4 +19,13 @@ export interface Venue {
   userid: User | string;
   latitude: number;
   longitude: number;
+  _id?: string;
+}
+
+export interface VenueInfo {
+  artist: string;
+  price: number;
+  date: Date;
+  genre: string;
+  _id?: string;
 }

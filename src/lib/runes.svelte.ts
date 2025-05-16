@@ -1,4 +1,4 @@
-import type { Venue } from "./types/venue-types";
+import type { Venue, VenueInfo } from "./types/venue-types";
 
 export const subTitle = $state({ text: "" });
 export const loggedInUser = $state({ 
@@ -8,6 +8,7 @@ export const loggedInUser = $state({
     _id: ""
  });
 export const currentVenues = $state({ venues: [] as Venue[] });
+
 
 
 

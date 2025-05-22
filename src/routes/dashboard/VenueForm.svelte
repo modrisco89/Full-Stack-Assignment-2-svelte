@@ -26,6 +26,7 @@
           capacity: selectedCapacity,
           latitude: lat,
           longitude: lng,
+          imgId: "placeholder_zbjk5v",
           userid: loggedInUser._id
         };
         const success = await venueService.addVenue(venue, loggedInUser.token);
@@ -33,10 +34,10 @@
           message = "venue not completed - some error occurred";
           return;
         }
-        message = `Thanks! You added venue ${venue}`;
+        message = `Thanks! You added venue "${venue.title}"`;
       }
     } else {
-      message = "Please select venue, description and candidate";
+      message = "Please enter Venue, description and Capacity";
     }
   }
 </script>

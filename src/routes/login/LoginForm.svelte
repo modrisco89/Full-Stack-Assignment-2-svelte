@@ -33,6 +33,7 @@ async function login() {
     
     let session = await venueService.login(email, password);
     if (session) {
+
       goto("/dashboard");
     } else {
       email = "";

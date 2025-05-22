@@ -1,9 +1,13 @@
 <script lang="ts">
-    import type { VenueInfo } from "$lib/types/venue-types";
-
+    import { currentInfos, loggedInUser } from "$lib/runes.svelte";
+    import { venueService } from "$lib/services/venue-service";
     
-    export let infos: VenueInfo[] = [];
+// let { infos } = $props();
 
+async function deleteInfo(infoId: string | undefined, venueId: string | undefined) {
+   await venueService.deleteInfo(infoId, loggedInUser.token, venueId);
+   
+  }
 </script>
 
 <table class="table is-fullwidth">
@@ -13,10 +17,11 @@
       <th>Price</th>
       <th>Date</th>
       <th>Genre</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
-    {#each infos as eventDetail}
+    {#each currentInfos.infos as eventDetail}
       <tr>
         <td>
           {eventDetail.artist}
@@ -29,6 +34,10 @@
         </td>
         <td>
           {eventDetail.genre}
+        </td>
+        <td>
+          <span class="icon"><a onclick={() => deleteInfo(eventDetail._id, eventDetail.venueid)}><span class="icon mr-1">
+          <i class="fas fa-trash"></i></span></a></span>
         </td>
       </tr>
     {/each}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { subTitle,loggedInUser } from "$lib/runes.svelte";
+  import { subTitle,loggedInUser, currentInfos } from "$lib/runes.svelte";
   import Card from "$lib/ui/Card.svelte";
   import EventForm from "./InfoForm.svelte";
   import { page } from '$app/stores';
@@ -7,14 +7,14 @@
   import { venueService } from "$lib/services/venue-service";
   import { onMount } from "svelte";
   import type { VenueInfo } from "$lib/types/venue-types";
-  subTitle.text = "Infos";
+  subTitle.text = "Events";
  
   let infos: VenueInfo[] = [];
+  
   onMount(async () => {
   const id = $page.params.id;
-  console.log(id);
   infos = await venueService.getInfos(id, loggedInUser.token);
-  console.log(infos);
+  console.log("The details are: ",infos);
   });
 
 </script>

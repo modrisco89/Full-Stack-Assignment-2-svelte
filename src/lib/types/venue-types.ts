@@ -12,6 +12,15 @@ export interface User {
   _id?: string;
 }
 
+export interface VenueInfo {
+  artist: string;
+  price: number;
+  date: Date;
+  genre: string;
+  _id?: string;
+  venueid: Venue["_id"];
+}
+
 export interface Venue {
   title: string;
   description: string;
@@ -19,13 +28,7 @@ export interface Venue {
   userid: User | string;
   latitude: number;
   longitude: number;
-  _id?: string;
+  _id: string;
+   imgId: string;
 }
 
-export interface VenueInfo {
-  artist: string;
-  price: number;
-  date: Date;
-  genre: string;
-  _id?: string;
-}

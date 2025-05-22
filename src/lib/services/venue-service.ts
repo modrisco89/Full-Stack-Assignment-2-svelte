@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { Session, User, Venue, VenueInfo } from "$lib/types/venue-types";
-import { currentVenues, loggedInUser } from "$lib/runes.svelte";
+import { currentInfos, currentVenues, loggedInUser } from "$lib/runes.svelte";
 
 export const venueService = {
   baseUrl: "http://localhost:3000",
@@ -45,7 +45,21 @@ export const venueService = {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       const response = await axios.post(this.baseUrl + "/api/venues", Venue);
       await this.refreshVenueInfo();
-      return response.status == 200;
+      return response.status == 201;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+  
+     async deleteVenue(venueId:string | undefined, token: string) {
+    
+    try {
+
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      const response = await axios.delete(`${this.baseUrl}/api/venues/${venueId}`);
+      await this.refreshVenueInfo();
+      return response.status;
     } catch (error) {
       console.log(error);
       return false;
@@ -66,26 +80,26 @@ export const venueService = {
 
 
    async addInfo(Info: VenueInfo, venueId: string, token: string) {
-    console.log("now it's here",venueId);
+    
     try {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      
       const response = await axios.post(`${this.baseUrl}/api/venues/${venueId}/infos`, Info);
-      await this.refreshVenueInfo();
-      return response.status == 200;
+      await this.refreshInfo(venueId);
+      return response.status;
     } catch (error) {
       console.log(error);
       return false;
     }
   },
 
-  async getInfos(venueId: string, token: string): Promise<VenueInfo[]> {
+
+  
+
+
+  async getInfos(venueId: string | undefined, token: string): Promise<VenueInfo[]> {
     try {
-      
-      console.log("now it's here",venueId);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       const response = await axios.get(`${this.baseUrl}/api/venues/${venueId}/infos`);
-      console.log("got a response", response);
       return response.data;
     } catch (error) {
     console.log(error)
@@ -93,13 +107,32 @@ export const venueService = {
     }
   },
 
-    async refreshVenueInfo() {
-    if (loggedInUser.token) {
-    currentVenues.venues = await this.getVenues(loggedInUser.token);
 
+       async deleteInfo(infoId:string | undefined, token: string, venueId: string | undefined) {
+    try {
+      const store = venueId;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      const response = await axios.delete(`${this.baseUrl}/api/infos/${infoId}`);
+      await this.refreshInfo(store);
+      return response.status == 201;
+    } catch (error) {
+      console.log(error);
+      return false;
     }
   },
 
+    async refreshVenueInfo() {
+    if (loggedInUser.token) {
+    console.log(loggedInUser.token)
+    currentVenues.venues = await this.getVenues(loggedInUser.token);
+   }
+  },
+
+      async refreshInfo(venueId: string | undefined) {
+    if (loggedInUser.token) {
+    currentInfos.infos = await this.getInfos(venueId, loggedInUser.token);
+    }
+  },
 
     saveSession(session: Session, email: string) {
     loggedInUser.email = email;

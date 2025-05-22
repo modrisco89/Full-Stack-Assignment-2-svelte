@@ -15,7 +15,7 @@
 
   async function addEvent() {
   const id = $page.params.id;
-   if (artist && price && genre) {
+   if (artist && genre) {
       if (true) {
         const venueInfo: VenueInfo= {
           artist: artist,
@@ -24,14 +24,15 @@
           genre: genre
         };
         const success = await venueService.addInfo(venueInfo,id, loggedInUser.token);
+        console.log("sucesss message: ", success)
         if (!success) {
           message = "event not completed - some error occurred";
           return;
         }
-        message = `Thanks! You added event ${venueInfo}`;
+        message = `Thanks! You added event "${venueInfo.artist}"`;
       }
     } else {
-      message = "Please select venue, description and candidate";
+      message = "Please select Artist and Genre";
     }
   }
 </script>

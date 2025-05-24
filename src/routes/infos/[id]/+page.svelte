@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { subTitle,loggedInUser, currentInfos } from "$lib/runes.svelte";
+  import { subTitle,imgurl,loggedInUser, currentInfos } from "$lib/runes.svelte";
   import Card from "$lib/ui/Card.svelte";
   import EventForm from "./InfoForm.svelte";
   import { page } from '$app/stores';
@@ -8,19 +8,21 @@
   import { onMount } from "svelte";
   import type { VenueInfo, Venue } from "$lib/types/venue-types";
   import LeafletMap from "$lib/ui/LeafletMap.svelte";
-  
+  import VenueImage from "$lib/ui/VenueImage.svelte";
  
   let infos: VenueInfo[] = [];
   let venue: Venue;
   let map: LeafletMap;
   
   onMount(async () => {
+    
     const id = $page.params.id;
     infos = await venueService.getInfos(id, loggedInUser.token);
     venue = await venueService.getaVenue(loggedInUser.token, id);
     map.addMarker(venue.latitude, venue.longitude, venue.title)
     map.setView(venue.latitude, venue.longitude);
     subTitle.text = venue.title;
+    imgurl.text = venue.img
   });
 
 </script>
@@ -41,7 +43,19 @@
   </div>
 </div>
 
-<Card title="Events">
-  <InfoList {infos} />
+<div class="columns">
+  <div class="column is-one-third">
+    {#if venue}
+<Card title="Have a look">
+  <VenueImage {venue} />
 </Card>
+{/if}
+  </div>
+  <div class="column">
+<Card title="Events">
+  <InfoList {infos}/>
+</Card>
+  </div>
+</div>
+
 

@@ -30,5 +30,6 @@ export interface Venue {
   longitude: number;
   _id: string;
    imgId: string;
+   img: string;
 }
 

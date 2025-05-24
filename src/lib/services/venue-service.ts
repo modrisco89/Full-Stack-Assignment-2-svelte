@@ -39,11 +39,21 @@ export const venueService = {
 
 
 
-   async addVenue(Venue: Venue, token: string) {
+   async addVenue(Venue: Venue, token: string, img: File | null) {
     
     try {
-
+      console.log(img);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+    if (img) {
+      const formData = new FormData();
+      formData.append("imagefile", img); 
+      const uploadRes = await axios.post(`${this.baseUrl}/api/venues/upload`, formData, {
+        headers: {
+        },
+      });
+      Venue.imgId = uploadRes.data.imgId ?? "placeholder_zbjk5v";
+      Venue.img = uploadRes.data.url ?? "https://res.cloudinary.com/dh7gl6628/image/upload/v1742276107/placeholder_zbjk5v.jpg";
+    }
       const response = await axios.post(this.baseUrl + "/api/venues", Venue);
       await this.refreshVenue();
       return response.status == 201;
@@ -56,7 +66,6 @@ export const venueService = {
      async deleteVenue(venueId:string | undefined, token: string) {
     
     try {
-
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       const response = await axios.delete(`${this.baseUrl}/api/venues/${venueId}`);
       await this.refreshVenue();

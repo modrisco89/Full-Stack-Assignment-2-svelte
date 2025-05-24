@@ -13,7 +13,7 @@
   let capacities = ["Small", "Medium", "Large"];
   let selectedCapacity = $state("Small");
   let message = $state("Enter a Venue");
-  
+  let {map} = $props();
 
   async function addVenue() {
 
@@ -30,6 +30,7 @@
           userid: loggedInUser._id
         };
         const success = await venueService.addVenue(venue, loggedInUser.token);
+        map.refreshMap(map, loggedInUser.token);
         if (!success) {
           message = "venue not completed - some error occurred";
           return;

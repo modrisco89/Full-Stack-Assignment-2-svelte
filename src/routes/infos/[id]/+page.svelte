@@ -6,23 +6,42 @@
   import InfoList from "$lib/ui/InfoList.svelte";
   import { venueService } from "$lib/services/venue-service";
   import { onMount } from "svelte";
-  import type { VenueInfo } from "$lib/types/venue-types";
-  subTitle.text = "Events";
+  import type { VenueInfo, Venue } from "$lib/types/venue-types";
+  import LeafletMap from "$lib/ui/LeafletMap.svelte";
+  
  
   let infos: VenueInfo[] = [];
+  let venue: Venue;
+  let map: LeafletMap;
   
   onMount(async () => {
-  const id = $page.params.id;
-  infos = await venueService.getInfos(id, loggedInUser.token);
-  console.log("The details are: ",infos);
+    const id = $page.params.id;
+    infos = await venueService.getInfos(id, loggedInUser.token);
+    venue = await venueService.getaVenue(loggedInUser.token, id);
+    map.addMarker(venue.latitude, venue.longitude, venue.title)
+    map.setView(venue.latitude, venue.longitude);
+    subTitle.text = venue.title;
   });
 
 </script>
 
+<div class="columns">
+  <div class="column">
 <Card title="Enter an Event">
   <EventForm />
 </Card>
+  </div>
+  <div class="column">
+<Card title="Venue Location">
+  <LeafletMap 
+  height={48}
+  zoom={8}
+  bind:this={map}/>
+</Card>
+  </div>
+</div>
 
-<Card title="Infos">
+<Card title="Events">
   <InfoList {infos} />
 </Card>
+

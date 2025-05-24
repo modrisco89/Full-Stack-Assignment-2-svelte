@@ -1,12 +1,14 @@
 <script lang="ts">
     import { currentVenues, loggedInUser } from "$lib/runes.svelte";
-     import { venueService } from "$lib/services/venue-service";
-// let { venues } = $props();
+    import { venueService } from "$lib/services/venue-service";
 
 
+
+
+let { map } = $props();
 async function deleteVenue(venueId: string | undefined) {
-  console.log("Delete time", venueId)
-   await venueService.deleteVenue(venueId, loggedInUser.token);
+  await venueService.deleteVenue(venueId, loggedInUser.token);
+  map.refreshMap(map, loggedInUser.token);
   }
 
 
@@ -48,10 +50,12 @@ async function deleteVenue(venueId: string | undefined) {
           {venueDetail.longitude}
         </td>
         <td>
+          <!-- svelte-ignore a11y_consider_explicit_label -->
           <span class="icon"><a href={`/charts/${venueDetail._id}`}><span class="icon mr-1">
           <i class="fas fa-chart-bar"></i></a></span>
         </td>
         <td>
+          <!-- svelte-ignore a11y_consider_explicit_label -->
           <span class="icon"><a onclick={() => deleteVenue(venueDetail._id)} href={`/dashboard`}><span class="icon mr-1">
           <i class="fas fa-trash"></i></a></span>
         </td>

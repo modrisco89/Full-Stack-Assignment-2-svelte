@@ -2,9 +2,10 @@ import axios from "axios";
 import type { Session, User, Venue, VenueInfo } from "$lib/types/venue-types";
 import { currentInfos, currentVenues, loggedInUser } from "$lib/runes.svelte";
 
+
 export const venueService = {
   baseUrl: "http://localhost:3000",
-
+  
   async signup(user: User): Promise<boolean> {
     try {
       const response = await axios.post(`${this.baseUrl}/api/users`, user);
@@ -26,7 +27,7 @@ export const venueService = {
           _id: response.data._id
         };
         this.saveSession(session, email);
-        await this.refreshVenueInfo();
+        await this.refreshVenue();
         return session;
       }
       return null;
@@ -44,7 +45,7 @@ export const venueService = {
 
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       const response = await axios.post(this.baseUrl + "/api/venues", Venue);
-      await this.refreshVenueInfo();
+      await this.refreshVenue();
       return response.status == 201;
     } catch (error) {
       console.log(error);
@@ -58,7 +59,7 @@ export const venueService = {
 
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       const response = await axios.delete(`${this.baseUrl}/api/venues/${venueId}`);
-      await this.refreshVenueInfo();
+      await this.refreshVenue();
       return response.status;
     } catch (error) {
       console.log(error);
@@ -76,6 +77,20 @@ export const venueService = {
       return [];
     }
   },
+
+
+    async getaVenue(token: string, venueId: string | undefined): Promise<Venue[]> {
+    try {
+      console.log("before getting", venueId);
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      const response = await axios.get(`${this.baseUrl}/api/venues/${venueId}`);
+      return response.data;
+    } catch (error) {
+    console.log(error)
+      return [];
+    }
+  },
+
 
 
 
@@ -121,9 +136,8 @@ export const venueService = {
     }
   },
 
-    async refreshVenueInfo() {
+    async refreshVenue() {
     if (loggedInUser.token) {
-    console.log(loggedInUser.token)
     currentVenues.venues = await this.getVenues(loggedInUser.token);
    }
   },
@@ -151,7 +165,7 @@ export const venueService = {
       loggedInUser.token = session.token;
       loggedInUser._id = session._id;
     }
-    await this.refreshVenueInfo();
+    await this.refreshVenue();
   },
 
   clearSession() {
@@ -162,4 +176,8 @@ export const venueService = {
     loggedInUser._id = "";
     localStorage.removeItem("donation");
   },
+
+
+
+
 };

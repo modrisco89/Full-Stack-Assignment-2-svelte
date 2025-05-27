@@ -4,7 +4,7 @@ import { currentInfos, currentVenues, loggedInUser } from "$lib/runes.svelte";
 
 
 export const venueService = {
-  baseUrl: "https://concise-foam-newsprint.glitch.me",
+  baseUrl: "http://2bdcefc79e52:3000",
   
   async signup(user: User): Promise<boolean> {
     try {

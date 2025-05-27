@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "leaflet/dist/leaflet.css";
+  //import "leaflet/dist/leaflet.css";
   import { onMount } from "svelte";
   import { latLng, map, type Control, type Map as LeafletMap } from "leaflet";
   // import { browser } from "$app/environment";

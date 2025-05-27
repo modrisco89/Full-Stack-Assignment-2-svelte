@@ -5,7 +5,7 @@
 <div class="field">
   <label class="label" for="email">Email</label>
   <div class="control has-icons-left">
-    <input id="email" bind:value={email} class="input" type="text" placeholder="Email" name="email" />
+    <input id="email" bind:value={email} class="input" type="text" placeholder="Email" name="email" autocomplete="email"/>
     <span class="icon is-small is-left">
       <i class="fa fa-envelope"></i>
     </span>

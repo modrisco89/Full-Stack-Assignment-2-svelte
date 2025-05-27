@@ -13,6 +13,7 @@
           type="text"
           placeholder="First Name"
           name="firstName"
+          autocomplete="given-name"
         />
         <span class="icon is-small is-left">
           <i class="fa fa-id-card"></i>
@@ -27,6 +28,7 @@
           type="text"
           placeholder="Last Name"
           name="lastName"
+          autocomplete="family-name"
         />
         <span class="icon is-small is-left">
           <i class="fa fa-id-card"></i>

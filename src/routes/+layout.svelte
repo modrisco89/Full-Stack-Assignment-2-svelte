@@ -1,10 +1,10 @@
 <script lang="ts">
-   import { browser } from "$app/environment";
+  import { browser } from "$app/environment";
   import { loggedInUser } from "$lib/runes.svelte";
-    import { venueService } from "$lib/services/venue-service";
+  import { venueService } from "$lib/services/venue-service";
   import Heading from "$lib/ui/Heading.svelte";
   import Menu from "$lib/ui/Menu.svelte";
-    import { onMount } from "svelte";
+  import { onMount } from "svelte";
 
   let {children} = $props();
 
